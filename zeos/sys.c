@@ -48,8 +48,6 @@ void sys_exit()
 {  
 }
 
-char buffer_k[256];
-#define BUFFER_SIZE 256
 int sys_write(int fd, char * buffer, int size){
 	char buff[size];
 	int rev = check_fd(fd, ESCRIPTURA);

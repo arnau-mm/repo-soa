@@ -88,6 +88,7 @@ ENTRY(keyboard_handler)
 ENTRY(p_f_handler)
 	  call p_f_routine
 
+/* FAST SYSCALL IMPLEMENTATION, NO NEEDED FOR WRITE SYSCALL ACTUAL APROACHS
 ENTRY (writeMSR)
         push %ebp
         mov %esp, %ebp
@@ -122,6 +123,7 @@ ENTRY(syscall_handler_sysenter)
         movl 12(%esp), %ecx // User stack address
         sti // Enable interrupts again
         sysexit
+*/
 
 ENTRY(system_call_handler)
       SAVE_ALL // Save the current context

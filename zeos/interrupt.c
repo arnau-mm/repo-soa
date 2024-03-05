@@ -79,7 +79,8 @@ void keyboard_handler(void);
 void clock_handler(void);
 void p_f_handler(unsigned long param, unsigned long eip);
 void writeMSR(unsigned long msr, unsigned long val);
-void syscall_handler_sysenter();
+//Fast syscall only
+//void syscall_handler_sysenter(); 
 void system_call_handler();
 
 void setIdt()
@@ -97,9 +98,11 @@ void setIdt()
   setInterruptHandler(33, keyboard_handler, 0);
   setInterruptHandler(14, p_f_handler, 0);
 
+/*  USED FOR FAST SYSCALLS
   writeMSR(0x174, __KERNEL_CS);
   writeMSR(0X175, INITIAL_ESP);
   writeMSR(0x176, (unsigned long)syscall_handler_sysenter);
+*/
 
   setTrapHandler(0x80, system_call_handler, 3);
 
