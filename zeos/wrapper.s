@@ -14,6 +14,7 @@
 .globl write; .type write, @function; .align 0; write:
     pushl %ebp
     movl %esp, %ebp
+
     movl 8(%ebp), %edx
     movl 12(%ebp), %ecx
     movl 16(%ebp), %ebx

@@ -32,7 +32,7 @@
 
 .globl p_f_handler; .type p_f_handler, @function; .align 0; p_f_handler:
    call p_f_routine
-# 129 "entry.S"
+# 128 "entry.S"
 .globl system_call_handler; .type system_call_handler, @function; .align 0; system_call_handler:
       pushl %gs; pushl %fs; pushl %es; pushl %ds; pushl %eax; pushl %ebp; pushl %edi; pushl %esi; pushl %ebx; pushl %ecx; pushl %edx; movl $0x18, %edx; movl %edx, %ds; movl %edx, %es
       cmpl $0, %eax
