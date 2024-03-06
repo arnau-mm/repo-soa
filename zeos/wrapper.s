@@ -15,6 +15,10 @@
     pushl %ebp
     movl %esp, %ebp
 
+    pushl %edx
+    pushl %ecx
+    pushl %ebx
+
     movl 8(%ebp), %edx
     movl 12(%ebp), %ecx
     movl 16(%ebp), %ebx
@@ -25,6 +29,10 @@
     cmpl $0, %eax
     jl write_error
 
+    popl %ebx
+    popl %ecx
+    popl %edx
+
     popl %ebp
     ret
 
@@ -32,5 +40,10 @@ write_error:
     negl %eax
     movl %eax, errno
     movl $-1, %eax
+
+    popl %ebx
+    popl %ecx
+    popl %edx
+
     popl %ebp
     ret
