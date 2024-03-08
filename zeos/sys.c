@@ -15,10 +15,14 @@
 
 #include <errno.h>
 
-#include <interrupt.h>
-
 #define LECTURA 0
 #define ESCRIPTURA 1
+
+extern int zeos_ticks;
+
+char buff[1024];
+
+
 
 int check_fd(int fd, int permissions)
 {
@@ -41,28 +45,38 @@ int sys_fork()
 {
   int PID=-1;
 
-  // creates the child process 
+  // creates the child process
+  
   return PID;
 }
 
 void sys_exit()
-{
+{  
 }
 
-
 int sys_write(int fd, char * buffer, int size){
-	char buff[size];
 	int rev = check_fd(fd, ESCRIPTURA);
 	if (rev < 0) return rev;
 
 	if (buffer == NULL) return EFAULT;
+	if (!access_ok(0,buffer,size)) return EFAULT;
 
 	if (size < 0) return EINVAL;
+	int i = 0;
+	while ((i + 1024) <= size) {
+		rev = copy_from_user(buffer+i, buff, 1024);
+		if(rev < 0) return rev;
+		sys_write_console(buff, 1024);
+		i += 1024;
+	}
+	if ((size - i) > 0) {
+		rev = copy_from_user(buffer+i, buff, size - i);
+		if(rev < 0) return rev;
+		sys_write_console(buff, size-i);
+	}	
 
-	rev = copy_from_user(buffer, buff, size);
-	if(rev < 0) return rev;
+	return size;
 
-	return sys_write_console(buff, size);
 }
 
 int sys_gettime() {

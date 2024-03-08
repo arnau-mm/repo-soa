@@ -2,8 +2,8 @@
  * libc.c 
  */
 
-#include <errno.h>
 #include <libc.h>
+#include <errno.h>
 #include <types.h>
 
 int errno;
@@ -45,22 +45,24 @@ int strlen(char *a)
 
 void perror(void) {
 
-        switch(-errno){
-                case ENOSYS:
-                        write(1, "Function not implemented\n", strlen("Function not implemented\n"));
-			break;
+  switch (-errno) {
 
-		case EFAULT:
-			write(1, "Bad address\n", strlen("Bad address\n"));
-			break;
+    case ENOSYS:
+      write(1, "Function not implemented\n", strlen("Function not implemented\n"));
+    break;
 
-		case EINVAL:
-			write(1, "Invalid argument\n", strlen("Invalid argument\n"));
-			break;
+    case EFAULT:
+      write(1, "Bad address\n", strlen("Bad address\n"));
+      break;
 
-                default:
-                        write(1, "Unknown error\n", strlen("Unknown error\n"));
-			break;
-        }
+    case EINVAL:
+      write(1, "Invalid argument\n", strlen("Invalid argument\n"));
+    break;
+
+    default:
+      write(1, "Unknown error\n", strlen("Unknown error\n"));
+    break;
+  }
 }
+
 

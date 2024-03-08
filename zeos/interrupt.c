@@ -6,11 +6,10 @@
 #include <segment.h>
 #include <hardware.h>
 #include <io.h>
-#include <entry.h>
-#include <libc.h>
-#include <system.h>
 
 #include <zeos_interrupt.h>
+#include <stddef.h>
+extern int zeos_ticks;
 
 Gate idt[IDT_ENTRIES];
 Register    idtR;
@@ -76,50 +75,80 @@ void setTrapHandler(int vector, void (*handler)(), int maxAccessibleFromPL)
   idt[vector].highOffset      = highWord((DWord)handler);
 }
 
+void keyboard_handler(void);
+void clock_handler(void);
+void p_f_handler(unsigned long param, unsigned long eip);
+void writeMSR(unsigned long msr, unsigned long val);
+//Fast syscall only
+void syscall_handler_sysenter(); 
+void system_call_handler();
 
 void setIdt()
 {
   /* Program interrups/exception service routines */
   idtR.base  = (DWord)idt;
   idtR.limit = IDT_ENTRIES * sizeof(Gate) - 1;
-
+  
   set_handlers();
+  
 
   /* ADD INITIALIZATION CODE FOR INTERRUPT VECTOR */
-	writeMSR(0x174, __KERNEL_CS);
-	writeMSR(0x175, INITIAL_ESP);
-	writeMSR(0x176, (int)syscall_handler_sysenter);
-	setInterruptHandler(33, keyboard_handler, 0);
-	setTrapHandler(0x80, system_call_handler, 3);
-	setInterruptHandler(32, clock_handler, 0);
-	setInterruptHandler(14, page_f_handler, 0);
+  
+  setInterruptHandler(32, clock_handler, 0);
+  setInterruptHandler(33, keyboard_handler, 0);
+  setInterruptHandler(14, p_f_handler, 0);
+
+  //USED FOR FAST SYSCALLS
+  writeMSR(0x174, __KERNEL_CS);
+  writeMSR(0X175, INITIAL_ESP);
+  writeMSR(0x176, (unsigned long)syscall_handler_sysenter);
+
+
+  //setTrapHandler(0x80, system_call_handler, 3);
 
   set_idt_reg(&idtR);
 }
 
+
+
+
 void keyboard_routine() {
-	unsigned char valor = inb(0x60);
-	if (!(valor & 0x80)) {
-		if (valor <= sizeof(char_map) && char_map[valor] != '\0') {
-			printc_xy(0, 0, char_map[valor & 0x7F]);
-		}
-		else {
-			printc_xy(0, 0, 'C');
-		}
-	}
+  unsigned char c = inb(0x60);
+  if (c & 0x80) {
+    unsigned char r = char_map[c & 0x7F];
+    printc_xy(0,0,r);
+  }
 }
 
 void clock_routine() {
-	++zeos_ticks;
-	zeos_show_clock();
+  zeos_ticks++;
+  zeos_show_clock();
 }
 
-void page_f_routine(int error, int eip){
-	char *missatge = "\nProcess generates a PAGE FAULT exception at EIP: @";
-	printk(missatge);
-	char char_eip[24];
-	itoa(eip, char_eip);
-	printk(char_eip);
-
-	while(1);
+void p_f_routine(unsigned long param, unsigned long eip){
+  printk("Proces generates a PAGE FAULT exception, at EIP:0x");
+  char strEip[20];
+  ulongToHex(eip, strEip, sizeof(strEip));
+  printk(strEip);
+  
+  while(1);
 }
+
+void ulongToHex(unsigned long num, char *hexStr, size_t size) {
+    size_t i = size - 1;
+    hexStr[i] = '\0';  // Agregar el carácter nulo al final de la cadena
+
+    do {
+        unsigned int remainder = num % 16;
+        hexStr[--i] = (remainder < 10) ? (remainder + '0') : (remainder - 10 + 'A');
+        num /= 16;
+    } while (num != 0 && i > 0);
+
+    // Copiar la cadena resultante a la posición inicial
+    size_t j = 0;
+    while (hexStr[i] != '\0') {
+        hexStr[j++] = hexStr[i++];
+    }
+}
+
+  
