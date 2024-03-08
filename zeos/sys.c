@@ -15,6 +15,8 @@
 
 #include <errno.h>
 
+#include <interrupt.h>
+
 #define LECTURA 0
 #define ESCRIPTURA 1
 
@@ -39,14 +41,14 @@ int sys_fork()
 {
   int PID=-1;
 
-  // creates the child process
-  
+  // creates the child process 
   return PID;
 }
 
 void sys_exit()
-{  
+{
 }
+
 
 int sys_write(int fd, char * buffer, int size){
 	char buff[size];
@@ -61,4 +63,8 @@ int sys_write(int fd, char * buffer, int size){
 	if(rev < 0) return rev;
 
 	return sys_write_console(buff, size);
+}
+
+int sys_gettime() {
+	return zeos_ticks;
 }
