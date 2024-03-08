@@ -88,7 +88,6 @@ ENTRY(keyboard_handler)
 ENTRY(p_f_handler)
 	  call p_f_routine
 
-// FAST SYSCALL IMPLEMENTATION, NO NEEDED FOR WRITE SYSCALL ACTUAL APROACHS
 ENTRY (writeMSR)
         push %ebp
         mov %esp, %ebp
@@ -117,26 +116,10 @@ ENTRY(syscall_handler_sysenter)
   sysenter_err:
         movl $-38, %eax
   sysenter_fin:
-        movl %EAX, 0x18(%esp)
+        movl %eax, 0x18(%esp)
         RESTORE_ALL
         movl (%esp), %edx // Return address
         movl 12(%esp), %ecx // User stack address
         sti // Enable interrupts again
         sysexit
-
-
-ENTRY(system_call_handler)
-      SAVE_ALL                              // Save the current context
-      cmpl $0, %eax                         // Is syscall number negative?
-      jl err                                // If it is, jump to return an error
-      cmpl $MAX_SYSCALL, %eax               // Is syscall greater than MAX_SYSCALL (4)?
-      jg err                                // If it is, jump to return an error
-      call *sys_call_table(, %eax, 0x04)    // Call the corresponding service routine
-      jmp fin                               // Finish
-err:
-      movl $-38, %eax                       // Move to EAX the ENOSYS error
-fin:
-      movl %eax, 0x18(%esp)                 // Change the EAX value in the stack
-      RESTORE_ALL                           // Restore the context
-      iret
 

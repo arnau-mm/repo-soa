@@ -17,8 +17,19 @@ ENTRY(write)
     movl 16(%ebp), %ebx    // Move size to %ebx
     movl $4, %eax          // System call number for write
 
+    pushl %ecx
+    pushl %edx
+    pushl $write_ret
+    pushl %ebp
+    movl %esp, %ebp
     sysenter               // Make the system call
 
+write_ret:
+
+    popl %ebp
+    addl $4, %esp
+    popl %edx
+    popl %ecx
     cmpl $0, %eax          // Check if there was an error
     jl  write_error        // Jump to write_error if there was an error
 
@@ -49,8 +60,18 @@ ENTRY(gettime)
     
     movl $10, %eax          // System call number for write
 
+    pushl %ecx
+    pushl %edx
+    pushl $gettime_ret
+    pushl %ebp
+    movl %esp, %ebp
     sysenter               // Make the system call
 
+gettime_ret:
+    popl %ebp
+    addl $4, %esp
+    popl %edx
+    popl %ecx
     cmpl $0, %eax          // Check if there was an error
     jl  gettime_error        // Jump to write_error if there was an error
 

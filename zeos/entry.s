@@ -33,7 +33,6 @@
 .globl p_f_handler; .type p_f_handler, @function; .align 0; p_f_handler:
    call p_f_routine
 
-
 .globl writeMSR; .type writeMSR, @function; .align 0; writeMSR:
         push %ebp
         mov %esp, %ebp
@@ -62,25 +61,9 @@
   sysenter_err:
         movl $-38, %eax
   sysenter_fin:
-        movl %EAX, 0x18(%esp)
+        movl %eax, 0x18(%esp)
         pop %edx; pop %ecx; pop %ebx; pop %esi; pop %edi; pop %ebp; pop %eax; pop %ds; pop %es; pop %fs; pop %gs;
         movl (%esp), %edx
         movl 12(%esp), %ecx
         sti
         sysexit
-
-
-.globl system_call_handler; .type system_call_handler, @function; .align 0; system_call_handler:
-      pushl %gs; pushl %fs; pushl %es; pushl %ds; pushl %eax; pushl %ebp; pushl %edi; pushl %esi; pushl %ebx; pushl %ecx; pushl %edx; movl $0x18, %edx; movl %edx, %ds; movl %edx, %es
-      cmpl $0, %eax
-      jl err
-      cmpl $MAX_SYSCALL, %eax
-      jg err
-      call *sys_call_table(, %eax, 0x04)
-      jmp fin
-err:
-      movl $-38, %eax
-fin:
-      movl %eax, 0x18(%esp)
-      pop %edx; pop %ecx; pop %ebx; pop %esi; pop %edi; pop %ebp; pop %eax; pop %ds; pop %es; pop %fs; pop %gs;
-      iret

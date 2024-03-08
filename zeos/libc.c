@@ -7,6 +7,7 @@
 #include <types.h>
 
 int errno;
+char sss[32];
 
 void itoa(int a, char *b)
 {
@@ -45,6 +46,7 @@ int strlen(char *a)
 
 void perror(void) {
 
+
   switch (-errno) {
 
     case ENOSYS:
@@ -57,6 +59,10 @@ void perror(void) {
 
     case EINVAL:
       write(1, "Invalid argument\n", strlen("Invalid argument\n"));
+    break;
+
+    case 0:
+      write(1, "No error", strlen("No error"));
     break;
 
     default:

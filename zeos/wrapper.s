@@ -24,8 +24,19 @@
     movl 16(%ebp), %ebx
     movl $4, %eax
 
+    pushl %ecx
+    pushl %edx
+    pushl $write_ret
+    pushl %ebp
+    movl %esp, %ebp
     sysenter
 
+write_ret:
+
+    popl %ebp
+    addl $4, %esp
+    popl %edx
+    popl %ecx
     cmpl $0, %eax
     jl write_error
 
@@ -56,8 +67,18 @@ write_error:
 
     movl $10, %eax
 
+    pushl %ecx
+    pushl %edx
+    pushl $gettime_ret
+    pushl %ebp
+    movl %esp, %ebp
     sysenter
 
+gettime_ret:
+    popl %ebp
+    addl $4, %esp
+    popl %edx
+    popl %ecx
     cmpl $0, %eax
     jl gettime_error
 
