@@ -78,22 +78,21 @@ int __attribute__((__section__(".text.main")))
 
   /* Initialize hardware data */
   setGdt(); /* Definicio de la taula de segments de memoria */
-  setIdt(); /* Definicio del vector de interrupcions */
+  setIdt(); /* Definicio del vector d'interrupcions */
   setTSS(); /* Definicio de la TSS */
 
   /* Initialize Memory */
   init_mm();
 
   /* Initialize an address space to be used for the monoprocess version of ZeOS */
-  monoprocess_init_addr_space(); /* TO BE DELETED WHEN THE PROCESS MANAGEMENT CODE TO BECOME MULTIPROCESS IS ADDED */
-
+  
   /* Initialize Scheduling */
   init_sched();
 
   /* Initialize idle task  data */
-  init_idle();
+  //init_idle();
   /* Initialize task 1 data */
-  init_task1();
+  //init_task1();
 
   /* Move user code/data now (after the page table initialization) */
   copy_data((void *) KERNEL_START + *p_sys_size, (void*)L_USER_START, *p_usr_size);

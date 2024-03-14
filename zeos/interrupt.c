@@ -78,7 +78,7 @@ void setTrapHandler(int vector, void (*handler)(), int maxAccessibleFromPL)
 void keyboard_handler(void);
 void clock_handler(void);
 void p_f_handler(unsigned long param, unsigned long eip);
-void writeMSR(unsigned long msr, unsigned long val);
+
 //Fast syscall only
 void syscall_handler_sysenter(); 
 void system_call_handler();
@@ -125,14 +125,6 @@ void clock_routine() {
   zeos_show_clock();
 }
 
-void p_f_routine(unsigned long param, unsigned long eip){
-  printk("Proces generates a PAGE FAULT exception, at EIP:0x");
-  char strEip[20];
-  ulongToHex(eip, strEip, sizeof(strEip));
-  printk(strEip);
-  
-  while(1);
-}
 
 void ulongToHex(unsigned long num, char *hexStr, size_t size) {
     size_t i = size - 1;
@@ -150,5 +142,17 @@ void ulongToHex(unsigned long num, char *hexStr, size_t size) {
         hexStr[j++] = hexStr[i++];
     }
 }
+
+
+
+void p_f_routine(unsigned long param, unsigned long eip){
+  printk("Proces generates a PAGE FAULT exception, at EIP:0x");
+  char strEip[20];
+  ulongToHex(eip, strEip, sizeof(strEip));
+  printk(strEip);
+  
+  while(1);
+}
+
 
   
