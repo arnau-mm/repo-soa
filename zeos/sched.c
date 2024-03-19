@@ -81,18 +81,19 @@ void init_idle (void)
 	//Assignem el PID 0 al procés IDLE
 	pcb->PID = 0;
 
-	//Inicialitzem dir_pages_baseAddr
+	//Inicialitzem dir_pages_baseAddr amb un nou directori per guardar l'espai d'adreçes
 	allocate_DIR(pcb);
 
 	/*
-	Ara inicialitzem context d'execució per poder restaurar que idle s'assigni a la CPU
+	Ara inicialitzem context d'execució per poder restaurar quan idle s'assigni a la CPU
 	No cal guardar ctxHW ni ctxSW, només info pk el task_switch pugui fer canvi: ebp i @ret
 	*/
-	
-	union task_union *tu = (union task_union*)pcb; //task_union del task_struct, començen a la mateixa posició
-	tu -> stack[1023] =  (unsigned long) cpu_idle; //Guardem a la pila la direcció de retorn
-	tu -> stack[1022] = (unsigned long) 0;		   //ebp, pot ser 0
-	tu -> task.kernel_esp = &(tu -> stack[1022]);
+	//Obtenim task_union a partir del task_struct (comparteixen @ inicial)
+	union task_union *tu = (union task_union*)pcb; 
+
+	tu -> stack[KERNEL_STACK_SIZE - 1] =  (unsigned long) cpu_idle; //A la penultima posició de la pila guardem l'adreça per retornar a la funció cpu_idle
+	tu -> stack[KERNEL_STACK_SIZE - 2] = (unsigned long) 0;		   //ebp, pot ser 0
+	tu -> task.kernel_esp = &(tu -> stack[KERNEL_STACK_SIZE - 2]);
 
 	idle_task = pcb;
 
@@ -116,16 +117,15 @@ void init_task1(void)
 
 	//Allocatem nou directori per al proces
 	allocate_DIR(pcb);
-	
 	//Completem inicialització allocatant pagines fisiques per ubicar l'espai d'adreçes d'usuari i afegeix traducció log-fiq
 	set_user_pages(pcb);
 
 	//Actualitzem TSS per apuntar a la nova tasca
-	union task_union *tu = (union task_union *) pcb;
-	tss.esp0 = KERNEL_ESP((union task_union *)pcb);
-	//writeMSR(0x175, tu -> stack);
-	writeMSR(0x175, (int) tss.esp0);
+	union task_union *tu = (union task_union *) pcb;	//Convertim task_struct (pcb) a task_union (tu)
+	tss.esp0 = KERNEL_ESP(tu);							//Fem que esp0 apunti a inici codi usuari
+	writeMSR(0x175, (int) tss.esp0);					//Modifiquem MSR per fer servir sysenter
 
+	//Fem que la pagina del directori del procés sigui la pàgina del directori actual en el sistema
 	set_cr3(pcb->dir_pages_baseAddr);
 	
 }

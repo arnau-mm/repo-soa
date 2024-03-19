@@ -81,19 +81,15 @@ int __attribute__((__section__(".text.main")))
 
   /* Initialize Memory */
   init_mm();
-  printk("\nMemory Initialized!    ");
 
   /* Initialize Scheduling */
   init_sched();
-  printk("\nSched Initialized!    ");
 
   /* Initialize idle task  data */
   init_idle();
-  printk("\nIdle initialized!    ");
 
   /* Initialize task 1 data */
   init_task1();
-  printk("\nTask1 initialized!    ");
 
 
   /* Move user code/data now (after the page table initialization) */
