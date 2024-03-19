@@ -7,6 +7,10 @@
 #include <io.h>
 #include <interrupt.h>
 
+
+//Array on tindrem els 10 processos. 
+//La part del __atribute__ serveix per indicar que volem que la variable 'task' es guardi a la secció de memoria '.data.task'
+//El proces a task[0] sera l'idle (entra a CPU quan no hi ha res més a fer) i no es pot destruir
 union task_union task[NR_TASKS]
   __attribute__((__section__(".data.task")));
 
@@ -46,6 +50,9 @@ int allocate_DIR(struct task_struct *t)
 	return 1;
 }
 
+/*
+	Funció a executar a CPU pel procés idle quan no hi ha res més a executar
+*/
 void cpu_idle(void)
 {
 	__asm__ __volatile__("sti": : :"memory");
@@ -56,29 +63,71 @@ void cpu_idle(void)
 	}
 }
 
+/*
+	Inicialització procés IDLE
+*/
 void init_idle (void)
 {	
-	struct list_head *first = list_first(&freequeue);
-	idle_task = list_head_to_task_struct(first);
-	union task_union *tu = (union task_union *) idle_task;
-	list_del(first); 
-	tu -> task.PID = 0;
-	allocate_DIR((struct task_struct*) tu);
-	tu -> stack[1022] = 0;
-	tu -> stack[1023] =  (unsigned long) cpu_idle;
-	tu -> task.kernel_esp = tu -> stack[1022];
 
+	//Obtenim el primer list_head lliure de la freequeue
+	struct list_head *first = list_first(&freequeue);
+	
+	//Com que el farem servir l'eliminem de la freequeeu
+	list_del(first); 
+
+	//Convertim el list_head a task_struct
+	struct task_struct *pcb = list_head_to_task_struct(first);
+
+	//Assignem el PID 0 al procés IDLE
+	pcb->PID = 0;
+
+	//Inicialitzem dir_pages_baseAddr
+	allocate_DIR(pcb);
+
+	/*
+	Ara inicialitzem context d'execució per poder restaurar que idle s'assigni a la CPU
+	No cal guardar ctxHW ni ctxSW, només info pk el task_switch pugui fer canvi: ebp i @ret
+	*/
+	
+	union task_union *tu = (union task_union*)pcb; //task_union del task_struct, començen a la mateixa posició
+	tu -> stack[1023] =  (unsigned long) cpu_idle; //Guardem a la pila la direcció de retorn
+	tu -> stack[1022] = (unsigned long) 0;		   //ebp, pot ser 0
+	tu -> task.kernel_esp = &(tu -> stack[1022]);
+
+	idle_task = pcb;
+
+	
 }
 
 void init_task1(void)
 {
+	
+	//Obtenim un task_union disponible de la freequeue
 	struct list_head *first = list_first(&freequeue);
-	union task_union *tu = (union task_union *) list_head_to_task_struct(first);
+		
+	//Com que l'hem fet servir, l'hem d'eliminar de la freequeue
 	list_del(first); 
-	tu -> task.PID = 1;
-	allocate_DIR((struct task_struct*) tu);
-	set_user_pages((struct task_struct *)tu);
-	writeMSR(0x175, tu -> stack);
+
+	//Convertim el list_head a task_struct
+	struct task_struct *pcb = list_head_to_task_struct(first);
+	
+	//Assignem el PID 1 al procés
+	pcb->PID = 1;
+
+	//Allocatem nou directori per al proces
+	allocate_DIR(pcb);
+	
+	//Completem inicialització allocatant pagines fisiques per ubicar l'espai d'adreçes d'usuari i afegeix traducció log-fiq
+	set_user_pages(pcb);
+
+	//Actualitzem TSS per apuntar a la nova tasca
+	union task_union *tu = (union task_union *) pcb;
+	tss.esp0 = KERNEL_ESP((union task_union *)pcb);
+	//writeMSR(0x175, tu -> stack);
+	writeMSR(0x175, (int) tss.esp0);
+
+	set_cr3(pcb->dir_pages_baseAddr);
+	
 }
 
 
@@ -87,10 +136,12 @@ void init_sched()
 	INIT_LIST_HEAD(&readyqueue);
 	INIT_LIST_HEAD(&freequeue);
 	for (int i = 0; i < NR_TASKS; ++i) {
-		list_add_tail(&task[i].task.list, &freequeue);
+		list_add(&task[i].task.list, &freequeue); //Abans teniem list_add_tail, pero crec que s'ha de fer servir aquest
 	}
 }
 
+
+//Retorna l'adreça del task_struct actual
 struct task_struct* current()
 {
   int ret_value;
