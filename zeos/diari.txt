@@ -1,0 +1,2 @@
+10/4/24
+He acabat d'implementar el task_switch i comprovat que funciona cridant-lo a la rutina d'interrupció de teclat

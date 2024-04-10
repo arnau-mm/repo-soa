@@ -67,3 +67,33 @@
         movl 12(%esp), %ecx
         sti
         sysexit
+
+.globl task_switch; .type task_switch, @function; .align 0; task_switch:
+      pushl %ebp
+      movl %esp, %ebp
+
+      pushl %ebx
+      pushl %esi
+      pushl %edi
+
+      push 8(%ebp)
+
+      call inner_task_switch
+
+      addl $4, %esp
+      popl %edi
+      popl %esi
+      popl %ebx
+
+      movl %ebp, %esp
+      popl %ebp
+      ret
+
+.globl ebp; .type ebp, @function; .align 0; ebp:
+      movl %ebp, %eax
+      ret
+
+.globl canvi_esp; .type canvi_esp, @function; .align 0; canvi_esp:
+      movl 4(%esp), %esp
+      popl %ebp
+      ret

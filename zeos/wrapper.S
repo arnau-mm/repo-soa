@@ -86,5 +86,3 @@ gettime_error:
     popl %ebp              // Restore the stack frame
     ret
 
-
-

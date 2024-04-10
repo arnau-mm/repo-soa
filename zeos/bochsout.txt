@@ -31,7 +31,7 @@
 00000000000i[      ]   SB16 support: no
 00000000000i[      ]   USB support: no
 00000000000i[      ]   VGA extension support: vbe
-00000000000i[MEM0  ] allocated memory at 0x7f6cab019010. after alignment, vector=0x7f6cab01a000
+00000000000i[MEM0  ] allocated memory at 0x7fb906da6010. after alignment, vector=0x7fb906da7000
 00000000000i[MEM0  ] 16,00MB
 00000000000i[MEM0  ] mem block size = 0x00100000, blocks=16
 00000000000i[MEM0  ] rom at 0xfffe0000/131072 ('/opt/bochs_gdb/share/bochs/BIOS-bochs-latest')
@@ -41,7 +41,7 @@
 00000000000i[DEV   ] PIIX3 PCI-to-ISA bridge present at device 1, function 0
 00000000000i[PLUGIN] init_dev of 'cmos' plugin device by virtual method
 00000000000i[CMOS  ] Using local time for initial clock
-00000000000i[CMOS  ] Setting initial clock to: Tue Mar 19 15:43:07 2024 (time0=1710859387)
+00000000000i[CMOS  ] Setting initial clock to: Wed Apr 10 14:30:04 2024 (time0=1712752204)
 00000000000i[PLUGIN] init_dev of 'dma' plugin device by virtual method
 00000000000i[DMA   ] channel 4 used by cascade
 00000000000i[PLUGIN] init_dev of 'pic' plugin device by virtual method
@@ -247,27 +247,176 @@
 00036726464i[FLOPPY] read() on floppy image returns 0
 00036770908i[FLOPPY] read() on floppy image returns 0
 00036815352i[FLOPPY] read() on floppy image returns 0
-00058789156i[XGUI  ] charmap update. Font Height is 16
-02672080000p[XGUI  ] >>PANIC<< POWER button turned off.
-02672080000i[CPU0  ] CPU is in protected mode (active)
-02672080000i[CPU0  ] CS.mode = 32 bit
-02672080000i[CPU0  ] SS.mode = 32 bit
-02672080000i[CPU0  ] EFER   = 0x00000000
-02672080000i[CPU0  ] | EAX=00000011  EBX=00001380  ECX=00000000  EDX=00100080
-02672080000i[CPU0  ] | ESP=00113fe0  EBP=00113fe8  ESI=000e0200  EDI=00003ff4
-02672080000i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df IF tf sf zf af pf cf
-02672080000i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
-02672080000i[CPU0  ] |  CS:0023( 0004| 0|  3) 00000000 ffffffff 1 1
-02672080000i[CPU0  ] |  DS:002b( 0005| 0|  3) 00000000 ffffffff 1 1
-02672080000i[CPU0  ] |  SS:002b( 0005| 0|  3) 00000000 ffffffff 1 1
-02672080000i[CPU0  ] |  ES:002b( 0005| 0|  3) 00000000 ffffffff 1 1
-02672080000i[CPU0  ] |  FS:0000( 0000| 0|  0) 00000000 00000000 0 0
-02672080000i[CPU0  ] |  GS:0000( 0000| 0|  0) 00000000 00000000 0 0
-02672080000i[CPU0  ] | EIP=001140aa (001140aa)
-02672080000i[CPU0  ] | CR0=0x80000011 CR2=0x00000000
-02672080000i[CPU0  ] | CR3=0x00030000 CR4=0x00000000
-02672080000i[CPU0  ] 0x001140aa>> jmp .-2 (0x001140aa) : EBFE
-02672080000i[CMOS  ] Last time is 1710860055 (Tue Mar 19 15:54:15 2024)
-02672080000i[XGUI  ] Exit
-02672080000i[      ] restoring default signal behavior
-02672080000i[SIM   ] quit_sim called with exit code 1
+00046588684i[XGUI  ] charmap update. Font Height is 16
+00532644000e[XGUI  ] xkeypress(): keysym f1 unhandled!
+00556888000e[XGUI  ] xkeypress(): keysym f1 unhandled!
+00561456000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a6)
+00564876000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1e)
+00569468000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a5)
+00571676000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1f)
+00575732000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a4)
+00576132000i[KBD   ] internal keyboard buffer full, ignoring scancode.(20)
+00585640000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9e)
+00591272000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9f)
+00601612000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a0)
+00628540000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1e)
+00634620000i[KBD   ] internal keyboard buffer full, ignoring scancode.(20)
+00637076000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1f)
+00637688000i[KBD   ] internal keyboard buffer full, ignoring scancode.(24)
+00639868000e[XGUI  ] xkeypress(): keysym f1 unhandled!
+00643456000i[KBD   ] internal keyboard buffer full, ignoring scancode.(26)
+00648964000i[KBD   ] internal keyboard buffer full, ignoring scancode.(21)
+00654524000i[KBD   ] internal keyboard buffer full, ignoring scancode.(25)
+00659116000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9e)
+00662760000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9f)
+00668692000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a0)
+00669220000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a1)
+00671156000e[XGUI  ] xkeypress(): keysym f1 unhandled!
+00671688000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a6)
+00676200000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a5)
+00686152000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1e)
+00688304000e[XGUI  ] xkeypress(): keysym f1 unhandled!
+00692152000i[KBD   ] internal keyboard buffer full, ignoring scancode.(26)
+00694752000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1f)
+00696140000i[KBD   ] internal keyboard buffer full, ignoring scancode.(20)
+00705496000i[KBD   ] internal keyboard buffer full, ignoring scancode.(25)
+00707212000i[KBD   ] internal keyboard buffer full, ignoring scancode.(21)
+00714056000e[XGUI  ] xkeypress(): keysym f1 unhandled!
+00716356000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9e)
+00718432000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9f)
+00719256000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a6)
+00725764000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a0)
+00726536000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a1)
+00727372000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a5)
+00728524000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a4)
+00734668000e[XGUI  ] xkeypress(): keysym f1 unhandled!
+00739480000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1e)
+00743284000i[KBD   ] internal keyboard buffer full, ignoring scancode.(26)
+00748872000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1f)
+00751576000i[KBD   ] internal keyboard buffer full, ignoring scancode.(20)
+00760972000e[XGUI  ] xkeypress(): keysym f1 unhandled!
+00761172000i[KBD   ] internal keyboard buffer full, ignoring scancode.(25)
+00761812000i[KBD   ] internal keyboard buffer full, ignoring scancode.(24)
+00763424000i[KBD   ] internal keyboard buffer full, ignoring scancode.(21)
+00767332000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9e)
+00768628000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9f)
+00771700000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a6)
+00776472000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a0)
+00777356000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a1)
+00778100000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a5)
+00780836000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a4)
+00820924000i[KBD   ] internal keyboard buffer full, ignoring scancode.(22)
+00824760000i[KBD   ] internal keyboard buffer full, ignoring scancode.(21)
+00826456000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1f)
+00828864000i[KBD   ] internal keyboard buffer full, ignoring scancode.(20)
+00829144000i[KBD   ] internal keyboard buffer full, ignoring scancode.(24)
+00830140000i[KBD   ] internal keyboard buffer full, ignoring scancode.(23)
+00833308000i[KBD   ] internal keyboard buffer full, ignoring scancode.(25)
+00833828000i[KBD   ] internal keyboard buffer full, ignoring scancode.(26)
+00847848000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9f)
+00849248000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a0)
+00849924000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a1)
+00851020000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a2)
+00851972000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a3)
+00853052000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a4)
+00853792000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a5)
+00854316000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a6)
+00904680000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1f)
+00904924000i[KBD   ] internal keyboard buffer full, ignoring scancode.(25)
+00921396000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9f)
+00921880000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a5)
+00939340000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1f)
+00939780000i[KBD   ] internal keyboard buffer full, ignoring scancode.(21)
+00940528000i[KBD   ] internal keyboard buffer full, ignoring scancode.(22)
+00941260000i[KBD   ] internal keyboard buffer full, ignoring scancode.(20)
+00942116000i[KBD   ] internal keyboard buffer full, ignoring scancode.(23)
+00942624000i[KBD   ] internal keyboard buffer full, ignoring scancode.(24)
+00953916000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9f)
+00953916000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a0)
+00954764000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a1)
+00955492000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a2)
+00956288000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a3)
+00956776000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a4)
+00990372000i[KBD   ] internal keyboard buffer full, ignoring scancode.(2f)
+00990684000i[KBD   ] internal keyboard buffer full, ignoring scancode.(31)
+00997044000i[KBD   ] internal keyboard buffer full, ignoring scancode.(33)
+01001480000i[KBD   ] internal keyboard buffer full, ignoring scancode.(b3)
+01006024000i[KBD   ] internal keyboard buffer full, ignoring scancode.(b1)
+01008700000i[KBD   ] internal keyboard buffer full, ignoring scancode.(af)
+01026608000i[KBD   ] internal keyboard buffer full, ignoring scancode.(2d)
+01028392000i[KBD   ] internal keyboard buffer full, ignoring scancode.(34)
+01029688000i[KBD   ] internal keyboard buffer full, ignoring scancode.(31)
+01037032000i[KBD   ] internal keyboard buffer full, ignoring scancode.(2e)
+01043696000i[KBD   ] internal keyboard buffer full, ignoring scancode.(ae)
+01045028000i[KBD   ] internal keyboard buffer full, ignoring scancode.(ad)
+01048392000i[KBD   ] internal keyboard buffer full, ignoring scancode.(b1)
+01049040000i[KBD   ] internal keyboard buffer full, ignoring scancode.(b4)
+01066732000i[KBD   ] internal keyboard buffer full, ignoring scancode.(2c)
+01084364000i[KBD   ] internal keyboard buffer full, ignoring scancode.(34)
+01086900000i[KBD   ] internal keyboard buffer full, ignoring scancode.(b4)
+01087604000i[KBD   ] internal keyboard buffer full, ignoring scancode.(ac)
+01139516000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1e)
+01142944000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9e)
+01159700000e[XGUI  ] xkeypress(): keysym f1 unhandled!
+01160228000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1e)
+01162484000i[KBD   ] internal keyboard buffer full, ignoring scancode.(24)
+01166800000i[KBD   ] internal keyboard buffer full, ignoring scancode.(20)
+01174028000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a0)
+01176348000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a4)
+01177756000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9e)
+01179148000e[XGUI  ] xkeypress(): keysym f1 unhandled!
+01202580000i[KBD   ] internal keyboard buffer full, ignoring scancode.(20)
+01202904000i[KBD   ] internal keyboard buffer full, ignoring scancode.(24)
+01220208000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a4)
+01220712000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1f)
+01221820000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a0)
+01223044000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9f)
+01245604000i[KBD   ] internal keyboard buffer full, ignoring scancode.(24)
+01245888000i[KBD   ] internal keyboard buffer full, ignoring scancode.(3a)
+01248688000i[KBD   ] internal keyboard buffer full, ignoring scancode.(ba)
+01248844000i[KBD   ] internal keyboard buffer full, ignoring scancode.(3a)
+01249896000i[KBD   ] internal keyboard buffer full, ignoring scancode.(25)
+01250804000e[XGUI  ] xkeypress(): keysym d1 unhandled!
+01251324000i[KBD   ] internal keyboard buffer full, ignoring scancode.(26)
+01252816000i[KBD   ] internal keyboard buffer full, ignoring scancode.(20)
+01255564000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1f)
+01265520000e[XGUI  ] xkeypress(): keysym d1 unhandled!
+01267864000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9f)
+01271520000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a0)
+01272016000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a4)
+01273260000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a5)
+01273260000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a6)
+01273624000i[KBD   ] internal keyboard buffer full, ignoring scancode.(ba)
+01340724000i[KBD   ] internal keyboard buffer full, ignoring scancode.(3a)
+01341744000i[KBD   ] internal keyboard buffer full, ignoring scancode.(ba)
+01341920000i[KBD   ] internal keyboard buffer full, ignoring scancode.(21)
+01343512000i[KBD   ] internal keyboard buffer full, ignoring scancode.(24)
+01345888000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1e)
+01360304000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a1)
+01361756000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a4)
+01362428000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9e)
+01362752000i[KBD   ] internal keyboard buffer full, ignoring scancode.(20)
+01363552000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a0)
+01533868000p[XGUI  ] >>PANIC<< POWER button turned off.
+01533868000i[CPU0  ] CPU is in protected mode (active)
+01533868000i[CPU0  ] CS.mode = 32 bit
+01533868000i[CPU0  ] SS.mode = 32 bit
+01533868000i[CPU0  ] EFER   = 0x00000000
+01533868000i[CPU0  ] | EAX=00000000  EBX=00001380  ECX=00000014  EDX=00000794
+01533868000i[CPU0  ] | ESP=0001dff4  EBP=0001dffc  ESI=000e0200  EDI=00003ff4
+01533868000i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df IF tf sf zf af pf cf
+01533868000i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
+01533868000i[CPU0  ] |  CS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+01533868000i[CPU0  ] |  DS:0018( 0003| 0|  0) 00000000 ffffffff 1 1
+01533868000i[CPU0  ] |  SS:0018( 0003| 0|  0) 00000000 ffffffff 1 1
+01533868000i[CPU0  ] |  ES:0018( 0003| 0|  0) 00000000 ffffffff 1 1
+01533868000i[CPU0  ] |  FS:0000( 0000| 0|  0) 00000000 00000000 0 0
+01533868000i[CPU0  ] |  GS:0000( 0000| 0|  0) 00000000 00000000 0 0
+01533868000i[CPU0  ] | EIP=00010604 (00010604)
+01533868000i[CPU0  ] | CR0=0x80000011 CR2=0x00000000
+01533868000i[CPU0  ] | CR3=0x00031000 CR4=0x00000000
+01533868000i[CPU0  ] 0x00010604>> jmp .-2 (0x00010604) : EBFE
+01533868000i[CMOS  ] Last time is 1712752587 (Wed Apr 10 14:36:27 2024)
+01533868000i[XGUI  ] Exit
+01533868000i[      ] restoring default signal behavior
+01533868000i[SIM   ] quit_sim called with exit code 1

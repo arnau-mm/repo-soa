@@ -17,11 +17,11 @@ Register    idtR;
 char char_map[] =
 {
   '\0','\0','1','2','3','4','5','6',
-  '7','8','9','0','\'','¡','\0','\0',
+  '7','8','9','0','\'','ï¿½','\0','\0',
   'q','w','e','r','t','y','u','i',
   'o','p','`','+','\0','\0','a','s',
-  'd','f','g','h','j','k','l','ñ',
-  '\0','º','\0','ç','z','x','c','v',
+  'd','f','g','h','j','k','l','ï¿½',
+  '\0','ï¿½','\0','ï¿½','z','x','c','v',
   'b','n','m',',','.','-','\0','*',
   '\0','\0','\0','\0','\0','\0','\0','\0',
   '\0','\0','\0','\0','\0','\0','\0','7',
@@ -117,6 +117,7 @@ void keyboard_routine() {
   if (c & 0x80) {
     unsigned char r = char_map[c & 0x7F];
     printc_xy(0,0,r);
+    task_switch((union task_union*)idle_task);
   }
 }
 
@@ -128,7 +129,7 @@ void clock_routine() {
 
 void ulongToHex(unsigned long num, char *hexStr, size_t size) {
     size_t i = size - 1;
-    hexStr[i] = '\0';  // Agregar el carácter nulo al final de la cadena
+    hexStr[i] = '\0';  // Agregar el carï¿½cter nulo al final de la cadena
 
     do {
         unsigned int remainder = num % 16;
@@ -136,7 +137,7 @@ void ulongToHex(unsigned long num, char *hexStr, size_t size) {
         num /= 16;
     } while (num != 0 && i > 0);
 
-    // Copiar la cadena resultante a la posición inicial
+    // Copiar la cadena resultante a la posiciï¿½n inicial
     size_t j = 0;
     while (hexStr[i] != '\0') {
         hexStr[j++] = hexStr[i++];

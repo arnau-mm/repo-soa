@@ -57,6 +57,8 @@ void cpu_idle(void)
 {
 	__asm__ __volatile__("sti": : :"memory");
 
+	printk("Entrem al proces IDLE");
+
 	while(1)
 	{
 	;
@@ -96,7 +98,7 @@ void init_idle (void)
 	tu -> task.kernel_esp = &(tu -> stack[KERNEL_STACK_SIZE - 2]);
 
 	idle_task = pcb;
-
+	
 	
 }
 
@@ -140,6 +142,30 @@ void init_sched()
 	}
 }
 
+void inner_task_switch(union task_union* new){
+
+	/*
+	1) Update the pointer to the system stack to point to the stack of new_task. This step depends
+	on the implemented mechanism to enter the system. In the case that the int assembly
+	instruction is used to invoke the system code, TSS.esp0 must be modified to make it point
+	to the stack of new_task. If the system code is invoked using sysenter, MSR number 0x175
+	must be also modified*/
+	tss.esp0 = KERNEL_ESP(new);		
+	writeMSR(0x175, tss.esp0);
+	/*
+	2) Change the user address space by updating the current page directory: use the set_cr3
+	funtion to set the cr3 register to point to the page directory of the new_task*/
+	set_cr3(get_DIR((struct task_struct*)new));
+	/*
+	3) Store the current value of the EBP register in the PCB. EBP has the address of the current
+	system stack where the inner_task_switch routine begins (the dynamic link).*/
+	current()->kernel_esp = ebp();
+
+	/*4) Change the current system stack by setting ESP register to point to the stored value in the
+	new PCB.*/
+	canvi_esp(new->task.kernel_esp);
+	
+}	
 
 //Retorna l'adreça del task_struct actual
 struct task_struct* current()

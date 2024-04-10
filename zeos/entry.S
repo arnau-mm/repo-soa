@@ -122,4 +122,34 @@ ENTRY(syscall_handler_sysenter)
         movl 12(%esp), %ecx // User stack address
         sti // Enable interrupts again
         sysexit
+        
+ENTRY(task_switch)
+      pushl %ebp          // Guardem a la pila pila el punter a la base de la pila
+      movl %esp, %ebp     // Fem que el punter de la base de la pila apunti al top de la pila
+
+      pushl %ebx          //Guardem registre base per direccionament de memoria       
+      pushl %esi          //Guardem registre Source Index register
+      pushl %edi          //Guardem registre Destination Index
+
+      push 8(%ebp)        //Agafem primer paràmetre (punter nou task_union)
+
+      call inner_task_switch //Un cop guardats els paràmetres cridem a la funció en c
+
+      addl $4, %esp       //Restaurem el %esp
+      popl %edi           //Restaurem edi
+      popl %esi           //Restaurem esi
+      popl %ebx           //Restaurem ebx
+
+      movl %ebp, %esp     //Restaurem  esp i retornem
+      popl %ebp           
+      ret
+
+ENTRY(ebp)
+      movl %ebp, %eax
+      ret
+
+ENTRY(canvi_esp)
+      movl 4(%esp), %esp
+      popl %ebp
+      ret
 
